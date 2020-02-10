@@ -31,20 +31,7 @@ def bajar_imagen(img_url):
 
     with open(downloadDirectory + img_name, 'wb') as img_file:
         img_file.write(img_bytes)
-        #print(f'{img_name} fue bajada...')
-
-
-# una por una Al rededor de 60´´
-"""
-tiempo = Contador()
-tiempo.iniciar()
-
-for url in img_urls:
-    bajar_imagen(url)
-
-tiempo.finalizar()
-tiempo.imprimir()
-"""
+        #print(f'{img_name} fue bajada...') de onda queda horrible con esto.
 
 tiempoConThreads = Contador()
 tiempoConThreads.iniciar()
@@ -58,3 +45,15 @@ printThread = threading.Thread(target=print, args=["Que onda mamamasa. Texto par
 printThread.start()
 tiempoConThreads.finalizar()
 tiempoConThreads.imprimir()
+
+# una por una Al rededor de 60´´
+"""
+tiempo = Contador()
+tiempo.iniciar()
+
+for url in img_urls:
+    bajar_imagen(url)
+
+tiempo.finalizar()
+tiempo.imprimir()
+"""
