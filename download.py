@@ -2,12 +2,9 @@ import requests
 import time
 import logging
 import threading
-
 from tiempo import Contador
 
-logging.basicConfig(format='%(asctime)s.%(msecs)03d [%(threadName)s] - %(message)s', datefmt='%H:%M:%S', level=logging.INFO)
-
-
+logging.basicConfig(format='%(asctime)s.%(msecs)03d Descarga] - %(message)s', datefmt='%H:%M:%S', level=logging.INFO)
 img_urls = [
     'https://images.unsplash.com/photo-1516117172878-fd2c41f4a759',
     'https://images.unsplash.com/photo-1532009324734-20a7a5813719',
@@ -24,28 +21,40 @@ img_urls = [
     'https://images.unsplash.com/photo-1516972810927-80185027ca84',
     'https://images.unsplash.com/photo-1550439062-609e1531270e',
     'https://images.unsplash.com/photo-1549692520-acc6669e2f0c'
-]
+    ]
+downloadDirectory = 'img\ '
 
 def bajar_imagen(img_url):
     img_bytes = requests.get(img_url).content
     img_name = img_url.split('/')[3]
     img_name = f'{img_name}.jpg'
-    with open(img_name, 'wb') as img_file:
+
+    with open(downloadDirectory + img_name, 'wb') as img_file:
         img_file.write(img_bytes)
-        # print(f'{img_name} fue bajada...')
+        #print(f'{img_name} fue bajada...')
 
 
+# una por una Al rededor de 60´´
+"""
 tiempo = Contador()
-
 tiempo.iniciar()
 
-# una por una
 for url in img_urls:
     bajar_imagen(url)
 
 tiempo.finalizar()
 tiempo.imprimir()
+"""
 
+tiempoConThreads = Contador()
+tiempoConThreads.iniciar()
 
+for url in img_urls:
+    url = threading.Thread(target=bajar_imagen, args=[url])
+    url.start()
+    #url.join() con join el tiempo es similar al tiempo sin threads, pero sin el contador imprime 0.04(+o-)
 
-# Pero ahora con threads
+printThread = threading.Thread(target=print, args=["Que onda mamamasa. Texto para saber si imprime esto mientras sigue descargando las imagenes y lo al final"])
+printThread.start()
+tiempoConThreads.finalizar()
+tiempoConThreads.imprimir()

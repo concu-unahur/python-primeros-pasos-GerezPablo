@@ -26,7 +26,9 @@ def multiplicarPorDos():
     finally:
         lock.release()
 
-def resultado():
+
+
+def varIni():
     print(f"El resultado es: {varIni}")
 
 threadParaSumar = threading.Thread(target=sumarUno)
@@ -36,6 +38,6 @@ threadParaSumar.start()
 
 threadParaMultiplicar.start()
 
-resultado()
+varIni()
 
 
