@@ -1,7 +1,7 @@
 import requests
 import time
 import logging
-import threading
+import threading 
 from tiempo import Contador
 
 logging.basicConfig(format='%(asctime)s.%(msecs)03d Descarga] - %(message)s', datefmt='%H:%M:%S', level=logging.INFO)
