@@ -5,7 +5,7 @@ import logging
 logging.basicConfig(format='%(asctime)s.%(msecs)03d [%(threadName)s] - %(message)s', datefmt='%H:%M:%S', level=logging.INFO)
 
 varIni = 10
-sema = threading.Semaphore(1)
+sema = threading.Semaphore(0)
 
 
 def setValorInicial(valor):
@@ -18,7 +18,6 @@ def sumarUno():
     global varIni
     global sema
 
-    sema.acquire()
     try:
         varIni += 1
     finally:
@@ -30,6 +29,7 @@ def multiplicarPorDos():
     global sema
 
     sema.acquire()
+
     try: 
         varIni *=2
     finally:
