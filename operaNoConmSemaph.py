@@ -5,63 +5,50 @@ import logging
 logging.basicConfig(format='%(asctime)s.%(msecs)03d [%(threadName)s] - %(message)s', datefmt='%H:%M:%S', level=logging.INFO)
 
 varIni = 10
-lock = threading.Lock()
-auxLock = threading.Lock()
+sema = threading.Semaphore(1)
+
 
 def setValorInicial(valor):
     global varIni
     varIni = valor
 
+
+
 def sumarUno():
     global varIni
-    global lock
+    global sema
+
+    sema.acquire()
     try:
         varIni += 1
     finally:
-        lock.release()
+        sema.release()
 
 
 def multiplicarPorDos():
     global varIni
-    global lock
+    global sema
 
-    lock.acquire()
-    
-    try:
+    sema.acquire()
+    try: 
         varIni *=2
     finally:
-        lock.release()
-
-
-
-
-
-
-def dividirPorDos():
-    global varIni
-    global lock
-    
-    try:
-        varIni /=2
-    finally:
-        lock.release()
+        
+        sema.release()
 
 def toString():
     print(f"El resultado es: {varIni}")
 
 
-
-
-
 def main():
     threadParaSumar = threading.Thread(target=sumarUno)
     threadParaMultiplicar = threading.Thread(target=multiplicarPorDos)
-
-    lock.acquire()
-
     
-    threadParaSumar.start()    
+
+
     threadParaMultiplicar.start()
+    threadParaSumar.start()        
+
     threadParaMultiplicar.join()
 
     toString()
